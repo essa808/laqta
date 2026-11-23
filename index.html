@@ -1,0 +1,219 @@
+<!doctype html>
+<html lang="ar" dir="rtl" data-theme="dark">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data: file: blob:; media-src 'self' file: blob: mediastream:; style-src 'self' 'unsafe-inline'">
+<title>Laqta</title>
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<header class="top">
+  <div class="brand"><span class="logo">◉</span> <span data-i18n="appName"></span></div>
+  <div id="recBar" class="recbar" hidden>
+    <span class="dot"></span><span id="recState"></span><b id="recTime">00:00</b>
+    <button id="pauseBtn"></button><button id="stopBtn" class="danger" data-i18n="stop"></button>
+  </div>
+  <div class="actions"><button id="langBtn"></button><button id="themeBtn" class="icon"></button></div>
+</header>
+
+<div class="layout">
+<nav class="nav">
+  <button data-page="capture" class="active"><span>📷</span><span data-i18n="navCapture"></span></button>
+  <button data-page="record"><span>🎬</span><span data-i18n="navRecord"></span></button>
+  <button data-page="camera"><span>🎥</span><span data-i18n="navCamera"></span></button>
+  <button data-page="audio"><span>🎙</span><span data-i18n="navAudio"></span></button>
+  <button data-page="studio"><span>🎞</span><span data-i18n="navStudio"></span></button>
+  <button data-page="history"><span>🗂</span><span data-i18n="navHistory"></span></button>
+  <button data-page="settings"><span>⚙</span><span data-i18n="navSettings"></span></button>
+</nav>
+
+<main>
+<section id="page-capture" class="page">
+  <h2 data-i18n="navCapture"></h2>
+  <p class="muted" data-i18n="capHint"></p>
+  <div class="row">
+    <button class="big" id="shotFull">🖥 <span data-i18n="fullScreen"></span><kbd data-hk-label="full"></kbd></button>
+    <button class="big" id="shotRegion">⬚ <span data-i18n="region"></span><kbd data-hk-label="region"></kbd></button>
+    <button class="big" id="shotWindow">🗔 <span data-i18n="window"></span></button>
+    <button id="goHotkeys">⌨ <span data-i18n="changeHotkeys"></span></button>
+  </div>
+  <div id="editor" hidden>
+    <div class="toolbar">
+      <button class="tool active" data-tool="pen" data-i18n="toolPen"></button>
+      <button class="tool" data-tool="rect" data-i18n="toolRect"></button>
+      <button class="tool" data-tool="arrow" data-i18n="toolArrow"></button>
+      <button class="tool" data-tool="highlight" data-i18n="toolHighlight"></button>
+      <button class="tool" data-tool="blur" data-i18n="toolBlur"></button>
+      <button class="tool" data-tool="text" data-i18n="toolText"></button>
+      <input id="edText" data-i18n-ph="textPlaceholder">
+      <input type="color" id="edColor" value="#ff3b30">
+      <input type="range" id="edSize" min="1" max="12" value="4">
+      <span class="spacer"></span>
+      <button id="edUndo" data-i18n="undo"></button>
+      <button id="edCopy" data-i18n="copy"></button>
+      <button id="edSave" class="primary" data-i18n="save"></button>
+    </div>
+    <div class="canvas-wrap"><canvas id="edCanvas"></canvas></div>
+  </div>
+</section>
+
+<section id="page-record" class="page" hidden>
+  <h2 data-i18n="navRecord"></h2>
+  <div class="grid2">
+    <div class="panel">
+      <label data-i18n="source"></label>
+      <div class="row">
+        <button id="srcScreen" data-i18n="fullScreen"></button>
+        <button id="srcWindow" data-i18n="window"></button>
+        <button id="srcRegion" data-i18n="region"></button>
+      </div>
+      <div class="muted"><span data-i18n="selected"></span> <b id="srcLabel"></b></div>
+      <label class="chk"><input type="checkbox" id="sysAudio" checked> <span data-i18n="sysAudio"></span></label>
+      <label><span data-i18n="mic"></span><select id="recMic"></select></label>
+      <label class="chk"><input type="checkbox" id="webcamOn"> <span data-i18n="webcamOverlay"></span></label>
+      <div id="webcamOpts" class="sub" hidden>
+        <label><span data-i18n="camera"></span><select id="recCam"></select></label>
+        <label><span data-i18n="position"></span>
+          <select id="camPos">
+            <option value="br" data-i18n="posBR"></option><option value="bl" data-i18n="posBL"></option>
+            <option value="tr" data-i18n="posTR"></option><option value="tl" data-i18n="posTL"></option>
+          </select></label>
+        <label><span data-i18n="size"></span><input type="range" id="camSize" min="10" max="45" value="22"></label>
+      </div>
+      <div class="row">
+        <label><span data-i18n="fps"></span><select data-setting="fps"><option>15</option><option>24</option><option>30</option><option>60</option></select></label>
+        <label><span data-i18n="quality"></span><select data-setting="quality"><option value="high" data-i18n="qHigh"></option><option value="medium" data-i18n="qMed"></option><option value="low" data-i18n="qLow"></option></select></label>
+      </div>
+      <p class="muted small" data-i18n="micLive"></p>
+      <button id="recStart" class="primary big">● <span data-i18n="start"></span><kbd data-hk-label="rec"></kbd></button>
+    </div>
+    <div class="panel preview" id="recSlot"><canvas id="recCanvas"></canvas></div>
+  </div>
+</section>
+
+<section id="page-camera" class="page" hidden>
+  <h2 data-i18n="navCamera"></h2>
+  <div class="grid2">
+    <div class="panel">
+      <label><span data-i18n="camera"></span><select id="camDevice"></select></label>
+      <label><span data-i18n="resolution"></span>
+        <select id="camRes"><option>1920x1080</option><option selected>1280x720</option><option>640x480</option></select></label>
+      <label><span data-i18n="mic"></span><select id="camMic"></select></label>
+      <label class="chk"><input type="checkbox" id="camMirror" checked> <span data-i18n="mirror"></span></label>
+      <div class="row">
+        <label><span data-i18n="fps"></span><select data-setting="fps"><option>15</option><option>24</option><option>30</option><option>60</option></select></label>
+        <label><span data-i18n="quality"></span><select data-setting="quality"><option value="high" data-i18n="qHigh"></option><option value="medium" data-i18n="qMed"></option><option value="low" data-i18n="qLow"></option></select></label>
+      </div>
+      <button id="camStart" class="primary big">● <span data-i18n="start"></span></button>
+    </div>
+    <div class="panel preview" id="camSlot">
+      <video id="camPreview" autoplay muted playsinline></video>
+      <div id="camMsg" class="cam-msg" hidden><p id="camMsgText"></p><button id="camRetry" data-i18n="retry"></button></div>
+    </div>
+  </div>
+</section>
+
+<section id="page-audio" class="page" hidden>
+  <h2 data-i18n="navAudio"></h2>
+  <div class="panel narrow">
+    <label><span data-i18n="mic"></span><select id="audMic"></select></label>
+    <label class="chk"><input type="checkbox" id="audSys"> <span data-i18n="sysAudio"></span></label>
+    <p class="muted small" data-i18n="audHint"></p>
+    <div class="meter" aria-hidden="true"><i id="audLevel"></i></div>
+    <button id="audStart" class="primary big">● <span data-i18n="start"></span></button>
+  </div>
+</section>
+
+<section id="page-studio" class="page" hidden>
+  <div class="row between">
+    <h2 data-i18n="navStudio"></h2>
+    <div class="row">
+      <button id="stOpen" data-i18n="openVideo"></button>
+      <span id="stName" class="muted small"></span>
+      <button id="stExport" class="primary" data-i18n="export" disabled></button>
+    </div>
+  </div>
+  <div class="studio">
+    <div class="stage" id="stStage">
+      <video id="stVideo" playsinline></video>
+      <canvas id="stCanvas"></canvas>
+      <p id="stEmpty" class="muted" data-i18n="studioHint"></p>
+    </div>
+    <div class="panel">
+      <div class="row">
+        <button id="stPlay" class="icon">▶</button>
+        <input type="range" id="stSeek" class="seek" min="0" max="1000" value="0">
+        <span id="stTime" class="muted" dir="ltr">0:00</span>
+      </div>
+      <label><span data-i18n="trim"></span>
+        <div class="row"><button id="stSetIn" data-i18n="setStart"></button><button id="stSetOut" data-i18n="setEnd"></button></div>
+        <span class="muted small" id="stTrim" dir="ltr"></span>
+      </label>
+      <h3 data-i18n="layers"></h3>
+      <div id="stLayers" class="layers"><p class="muted small" id="stNoLayers">—</p></div>
+      <label><span data-i18n="addText"></span>
+        <input id="stText" data-i18n-ph="textPlaceholder">
+        <div class="row">
+          <input type="color" id="stColor" value="#ffd60a">
+          <input type="number" id="stSize" min="12" max="320" value="42" class="size">
+          <button id="stAddText" class="primary">+</button>
+        </div>
+      </label>
+      <label><span data-i18n="stickers"></span><div id="stStickers" class="stickers"></div></label>
+      <p class="muted small" data-i18n="studioHint2"></p>
+    </div>
+  </div>
+</section>
+
+<section id="page-history" class="page" hidden>
+  <div class="row between">
+    <h2 data-i18n="navHistory"></h2>
+    <div class="row"><button id="histRefresh" data-i18n="refresh"></button><button id="histFolder" data-i18n="openFolder"></button></div>
+  </div>
+  <p id="histEmpty" class="muted" data-i18n="historyEmpty" hidden></p>
+  <div id="histGrid" class="hist"></div>
+</section>
+
+<section id="page-settings" class="page" hidden>
+  <h2 data-i18n="navSettings"></h2>
+  <div class="panel narrow">
+    <label><span data-i18n="language"></span><select data-setting="lang"><option value="ar">العربية</option><option value="en">English</option></select></label>
+    <label><span data-i18n="theme"></span><select data-setting="theme"><option value="dark" data-i18n="dark"></option><option value="light" data-i18n="light"></option></select></label>
+    <label><span data-i18n="outDir"></span><div class="row"><code id="outDir"></code><button id="chooseDir" data-i18n="change"></button></div></label>
+    <label><span data-i18n="countdown"></span><input type="number" min="0" max="10" data-setting="countdown"></label>
+    <label><span data-i18n="shotDelay"></span><input type="number" min="0" max="10" data-setting="shotDelay"></label>
+    <label class="chk"><input type="checkbox" data-setting="hideOnRecord"> <span data-i18n="hideOnRecord"></span></label>
+    <label class="chk"><input type="checkbox" data-setting="autoCopy"> <span data-i18n="autoCopy"></span></label>
+    <label class="chk"><input type="checkbox" data-setting="openEditor"> <span data-i18n="openEditor"></span></label>
+    <label class="chk"><input type="checkbox" data-setting="closeToTray"> <span data-i18n="closeToTray"></span></label>
+    <label class="chk"><input type="checkbox" data-setting="startWithWindows"> <span data-i18n="startWithWindows"></span></label>
+    <label class="chk"><input type="checkbox" data-setting="contextMenu"> <span data-i18n="ctxMenu"></span></label>
+    <p class="muted small" data-i18n="ctxMenuHint"></p>
+    <h3 id="hotkeysTitle" data-i18n="hotkeys"></h3>
+    <p class="muted small" data-i18n="hkHint"></p>
+    <table class="keys">
+      <tr><td data-i18n="hkFull"></td><td><input class="hk" data-hk="full" readonly></td></tr>
+      <tr><td data-i18n="hkRegion"></td><td><input class="hk" data-hk="region" readonly></td></tr>
+      <tr><td data-i18n="hkRec"></td><td><input class="hk" data-hk="rec" readonly></td></tr>
+      <tr><td data-i18n="hkPause"></td><td><input class="hk" data-hk="pause" readonly></td></tr>
+    </table>
+    <div><button id="hkReset" data-i18n="reset"></button></div>
+    <p class="muted" data-i18n="privacy"></p>
+  </div>
+</section>
+</main>
+</div>
+
+<dialog id="srcModal">
+  <h3 data-i18n="chooseSource"></h3>
+  <div id="srcGrid" class="srcgrid"></div>
+  <div class="row end"><button id="srcCancel" data-i18n="cancel"></button></div>
+</dialog>
+<div id="countdown" class="countdown" hidden></div>
+<div id="toasts" class="toasts"></div>
+
+<script src="i18n.js"></script>
+<script src="renderer.js"></script>
+<script src="studio.js"></script>
+</body>
+</html>

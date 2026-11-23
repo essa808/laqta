@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Gives Laqta a package identity so Windows 11 shows its menu in the new (short) right-click menu.
+     Registered in place by win11menu\install.ps1; nothing is copied or virtualized. -->
+<Package
+  xmlns="http://schemas.microsoft.com/appx/manifest/foundation/windows10"
+  xmlns:uap="http://schemas.microsoft.com/appx/manifest/uap/windows10"
+  xmlns:uap10="http://schemas.microsoft.com/appx/manifest/uap/windows10/10"
+  xmlns:desktop4="http://schemas.microsoft.com/appx/manifest/desktop/windows10/4"
+  xmlns:desktop5="http://schemas.microsoft.com/appx/manifest/desktop/windows10/5"
+  xmlns:desktop6="http://schemas.microsoft.com/appx/manifest/desktop/windows10/6"
+  xmlns:com="http://schemas.microsoft.com/appx/manifest/com/windows10"
+  xmlns:rescap="http://schemas.microsoft.com/appx/manifest/foundation/windows10/restrictedcapabilities"
+  IgnorableNamespaces="uap uap10 desktop4 desktop5 desktop6 com rescap">
+
+  <Identity Name="Laqta.ContextMenu" Publisher="CN=Laqta" Version="1.0.0.0" ProcessorArchitecture="x64" />
+
+  <Properties>
+    <DisplayName>Laqta</DisplayName>
+    <PublisherDisplayName>Laqta</PublisherDisplayName>
+    <Logo>win11menu\logo.png</Logo>
+    <desktop6:FileSystemWriteVirtualization>disabled</desktop6:FileSystemWriteVirtualization>
+    <desktop6:RegistryWriteVirtualization>disabled</desktop6:RegistryWriteVirtualization>
+  </Properties>
+
+  <Resources>
+    <Resource Language="ar-sa" />
+    <Resource Language="en-us" />
+  </Resources>
+
+  <Dependencies>
+    <TargetDeviceFamily Name="Windows.Desktop" MinVersion="10.0.19041.0" MaxVersionTested="10.0.26100.0" />
+  </Dependencies>
+
+  <Capabilities>
+    <rescap:Capability Name="runFullTrust" />
+    <rescap:Capability Name="unvirtualizedResources" />
+  </Capabilities>
+
+  <Applications>
+    <Application Id="Laqta" Executable="node_modules\electron\dist\electron.exe"
+      uap10:TrustLevel="mediumIL" uap10:RuntimeBehavior="win32App">
+      <uap:VisualElements DisplayName="Laqta" Description="Laqta" BackgroundColor="transparent"
+        Square150x150Logo="win11menu\logo.png" Square44x44Logo="win11menu\logo.png" AppListEntry="none" />
+      <Extensions>
+        <desktop4:Extension Category="windows.fileExplorerContextMenus">
+          <desktop4:FileExplorerContextMenus>
+            <desktop5:ItemType Type="Directory\Background">
+              <desktop5:Verb Id="LaqtaMenu" Clsid="D1F0A1B2-7C3E-4F5A-9B8C-1A2B3C4D5E6F" />
+            </desktop5:ItemType>
+          </desktop4:FileExplorerContextMenus>
+        </desktop4:Extension>
+        <com:Extension Category="windows.comServer">
+          <com:ComServer>
+            <com:SurrogateServer DisplayName="Laqta context menu">
+              <com:Class Id="D1F0A1B2-7C3E-4F5A-9B8C-1A2B3C4D5E6F" Path="win11menu\LaqtaMenu.dll" ThreadingModel="STA" />
+            </com:SurrogateServer>
+          </com:ComServer>
+        </com:Extension>
+      </Extensions>
+    </Application>
+  </Applications>
+</Package>

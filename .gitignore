@@ -1,0 +1,10 @@
+node_modules/
+dist/
+build/
+*.log
+settings.json
+settings.appdata.json
+laqta-backup*/
+.DS_Store
+Thumbs.db
+*.zip

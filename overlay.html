@@ -1,0 +1,18 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data:; style-src 'self' 'unsafe-inline'">
+<style>
+  html, body { margin: 0; height: 100%; overflow: hidden; cursor: crosshair; background: transparent; user-select: none; }
+  canvas { display: block; }
+  #hint { position: fixed; top: 16px; left: 50%; transform: translateX(-50%); background: rgba(0,0,0,.75); color: #fff;
+    padding: 8px 16px; border-radius: 8px; font: 14px "Segoe UI", Tahoma, sans-serif; pointer-events: none; }
+</style>
+</head>
+<body>
+<canvas id="c"></canvas><div id="hint"></div>
+<script src="i18n.js"></script>
+<script src="overlay.js"></script>
+</body>
+</html>

@@ -1,0 +1,21 @@
+{
+  "name": "laqta",
+  "productName": "Laqta",
+  "version": "1.0.0",
+  "description": "لقطة — screenshots, screen recording and camera-only recording (Arabic/English, dark/light)",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "test": "node test.js"
+  },
+  "license": "MIT",
+  "author": "essa808",
+  "homepage": "https://github.com/essa808/laqta",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/essa808/laqta.git"
+  },
+  "devDependencies": {
+    "electron": "^45.4.1"
+  }
+}

@@ -1,0 +1,4 @@
+LIBRARY LaqtaMenu
+EXPORTS
+  DllGetClassObject PRIVATE
+  DllCanUnloadNow PRIVATE
