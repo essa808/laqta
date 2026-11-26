@@ -8,6 +8,8 @@
 
 [![أحدث إصدار](https://img.shields.io/github/v/release/essa808/laqta?label=%D8%A3%D8%AD%D8%AF%D8%AB%20%D8%A5%D8%B5%D8%AF%D8%A7%D8%B1&style=flat-square)](https://github.com/essa808/laqta/releases/latest)
 [![الرخصة](https://img.shields.io/github/license/essa808/laqta?style=flat-square)](LICENSE)
+[![downloads](https://img.shields.io/github/downloads/essa808/laqta/total?style=flat-square&label=downloads)](https://github.com/essa808/laqta/releases)
+[![platform](https://img.shields.io/badge/platform-Windows%2010%2F11-2ea44f?style=flat-square)]()
 
 **[⬇ تحميل Laqta-win64.zip](https://github.com/essa808/laqta/releases/latest/download/Laqta-win64.zip)** — ويندوز 10/11 (64-bit) · محمول بدون تثبيت
 
